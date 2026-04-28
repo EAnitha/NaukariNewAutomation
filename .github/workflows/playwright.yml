@@ -5,18 +5,16 @@ on:
   pull_request:
     branches: [ main, master ]
   workflow_dispatch:   # allows manual run
-    schedule:
-    # Every day at 11:45 PM IST
+  schedule:
+    # Every day at 11:45 PM IST (UTC 18:15)
     #- cron: '15 18 * * *'
-    
- 
-    # Monday to Friday at 8:30 AM IST
+    # Monday to Friday at 8:30 AM IST (UTC 03:00)
     - cron: '0 3 * * 1-6'
-    # Monday to Friday at 9:30 AM IST
+    # Monday to Friday at 9:30 AM IST (UTC 04:00)
     - cron: '0 4 * * 1-6'
-    # Monday to Friday at 3:30 PM IST
+    # Monday to Friday at 3:30 PM IST (UTC 10:00)
     - cron: '0 10 * * 1-6'
-    # Every day at 11:35 PM IST
+    # Every day at 11:35 PM IST (UTC 18:05)
     #- cron: '5 18 * * *'
 jobs:
   test:
@@ -31,8 +29,8 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test
+    - name: Run stable Playwright tests
+      run: npm run test:ci
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
